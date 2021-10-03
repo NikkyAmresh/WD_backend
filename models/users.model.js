@@ -162,6 +162,10 @@ class User {
       }
     });
   }
+  /**
+   * @param {string} page
+   * @param {(arg0: import("mysql").MysqlError, arg1: any) => void} result
+   */
   static getAll(page, result) {
     let limit = `order by id desc limit ${(parseInt(page) - 1) * NUMBER_PER_PAGE},${NUMBER_PER_PAGE}`;
     let sqlQuery = `select count(*) as count from users;select id, firstname, lastname, email, mobile, doj from users ${limit}`;

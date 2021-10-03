@@ -67,7 +67,7 @@ class List {
         result(err, null);
         return;
       }
-      new Card({ listId: this.listId }).deleteByList((err, res) => {
+      new Card({ listId: this.listId }).deleteByList((/** @type {any} */ err, /** @type {any} */ res) => {
         if (err) {
           console.log("error: ", err);
           result(err, null);
@@ -98,6 +98,9 @@ class List {
     });
   }
 
+  /**
+   * @param {{ (err: any, data: any): void; (arg0: import("mysql").MysqlError, arg1: any): void; }} result
+   */
   static getAll(result){
     const sqlQuery = `select * from lists order by level;select * from cards`;
     db.query(sqlQuery,(err,res)=>{
@@ -109,8 +112,8 @@ class List {
       let [lists,cards] = res;
       lists = JSON.parse(JSON.stringify(lists));
       cards = JSON.parse(JSON.stringify(cards));
-      lists.forEach((list)=>{
-        list.cards = cards.filter((card)=>card.list_id==list.list_id);
+      lists.forEach((/** @type {{ cards: any; list_id: any; }} */ list)=>{
+        list.cards = cards.filter((/** @type {{ list_id: any; }} */ card)=>card.list_id==list.list_id);
       })
       console.log(lists)
       result(null,lists);
